@@ -1,0 +1,18 @@
+.mat-form-field {
+  background-color: #1e1e1e;
+  border-radius: 5px;
+  box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.3);
+
+  .mat-form-field-label {
+    color: #b3b3b3;
+  }
+
+  .mat-input-element {
+    color: #fff;
+  }
+}
+
+.mat-spinner {
+  stroke: conic-gradient(from 0deg, #ff4081, #651fff);
+  filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.5));
+}
