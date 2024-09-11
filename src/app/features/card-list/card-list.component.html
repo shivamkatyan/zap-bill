@@ -1,6 +1,5 @@
 <div class="is-size-2 pb-5 has-text-centered is-capitalized has-text-weight-medium">Added Cards</div>
 
 <div *ngFor="let card of creditCards">
-  <app-credit-card [card]="card" (onDelete)="deleteCard($event)" (onPayViaUPI)="payViaUPI($event)">
-  </app-credit-card>
+  <app-credit-card [card]="card"  (save)="updateCard($event)" (onDelete)="deleteCard($event)" (onPayViaUPI)="payViaUPI($event) "/>
 </div>
