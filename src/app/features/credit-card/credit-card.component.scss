@@ -1,0 +1,25 @@
+.card {
+  max-width: 400px;
+  min-width: 400px;
+  //   margin: 20px auto; /* Centers the card and adds vertical spacing */
+  //   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for better appearance */
+  //   border-radius: 8px; /* Adds rounded corners */
+}
+
+.card-header-icon {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.card-content {
+  padding: 10px 15px;
+}
+
+.content p {
+  font-size: 0.9rem;
+}

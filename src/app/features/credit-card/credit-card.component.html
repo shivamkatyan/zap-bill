@@ -1,0 +1,50 @@
+<div class="card p-4 mb-5" *ngIf="!isEditing">
+  <header class="card-header">
+    <p class="card-header-title is-capitalized">{{ card.username }} ({{ card.phoneNumber }})</p>
+    <div class="card-header-icon">
+      <span class="icon has-text-primary">
+        <i class="fas fa-edit" (click)="toggleEdit()"></i>
+      </span>
+      <span class="icon has-text-danger">
+        <i class="fas fa-trash" (click)="deleteCard(card.id)"></i>
+      </span>
+    </div>
+  </header>
+  <div class="card-content is-flex is-flex-direction-row is-justify-content-space-between">
+    <div class="content">
+      <p>Credit Card Number: {{ card.number }}</p>
+    </div>
+    <div class="is-flex is-justify-content-flex-end">
+      <button class="button is-primary is-outlined is-normal" (click)="payViaUPI(card.id)">
+        <span class="icon">
+          <i class="fab fa-google-pay"></i>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Editable Mode -->
+<div class="card p-5 mb-5" *ngIf="isEditing">
+  <div class="card-content">
+    <div class="field">
+      <label class="label">Name</label>
+      <div class="control">
+        <input class="input" type="text" [(ngModel)]="card.username" placeholder="Enter name" />
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Phone Number</label>
+      <div class="control">
+        <input class="input" type="text" [(ngModel)]="card.phoneNumber" placeholder="Enter phone number" />
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Credit Card Number</label>
+      <div class="control">
+        <input class="input" type="text" [(ngModel)]="card.number" placeholder="Enter card number" />
+      </div>
+    </div>
+    <button class="button is-success" (click)="saveChanges()">Save</button>
+  </div>
+</div>
