@@ -1,7 +1,7 @@
 import { NgFor } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CreditCardComponent } from '../credit-card/credit-card.component';
+import { AfterViewInit, Component, inject } from '@angular/core';
 import { StorageService } from 'src/app/service/storage.service';
+import { CreditCardComponent } from '../credit-card/credit-card.component';
 
 @Component({
   selector: 'app-card-list',
@@ -26,7 +26,13 @@ export class CardListComponent implements AfterViewInit {
         this.creditCards = [...cards];
       } else {
         // Initialize with a default card if no cards exist
-        const defaultCard = { id: 1, username: 'John Doe', number: '**** **** **** 1234', phoneNumber: 1234567890 };
+        const defaultCard = {
+          id: 1,
+          username: 'John Doe',
+          number: '**** **** **** 1234',
+          phoneNumber: 1234567890,
+          bank: 'icici',
+        };
         await this.storageService.addCard(defaultCard);
         this.creditCards = [defaultCard];
       }
