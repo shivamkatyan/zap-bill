@@ -14,7 +14,7 @@
     [card]="{ id: creditCards.length + 1, username: '', number: '', phoneNumber: 0, bank: '' }"
     [enableEditMode]="true"
     (save)="handleAddCard($event)"
-    (onDelete)="cancelAddCard()"
+    (onDelete)="cancelAddCard(); deleteCard($event)"
   >
   </app-credit-card>
 </div>
