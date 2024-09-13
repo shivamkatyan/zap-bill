@@ -94,7 +94,7 @@ export class CreditCardComponent implements OnInit, OnChanges {
   /**
    * upi id pipe
    */
-  private upiPipe = inject(UpiIDPipe);
+  // private upiPipe = inject(UpiIDPipe);
 
   /**
    * upi id possible values
@@ -169,9 +169,9 @@ export class CreditCardComponent implements OnInit, OnChanges {
    * @param upiID - The UPI ID for the payment.
    */
   payViaUPI(): void {
-    const upiID: string = this.upiPipe.transform(this.card);
-    this.onPayViaUPI.emit(upiID);
-    window.location.href = `upi://pay?pa=${upiID}&pn=BankName&cu=INR`;
+    // const upiID: string = this.upiPipe.transform(this.card);
+    // this.onPayViaUPI.emit(upiID);
+    // window.location.href = `upi://pay?pa=${upiID}&pn=BankName&cu=INR`;
   }
 
   /**
