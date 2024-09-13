@@ -57,9 +57,15 @@
       <div class="field">
         <label class="label">Bank</label>
         <div class="control">
-          <div class="dropdown is-active" id="bank-selector">
+          <div class="dropdown" [ngClass]="{ 'is-active': isDropdownActive }" id="bank-selector">
             <div class="dropdown-trigger">
-              <button class="button" type="button" aria-haspopup="true" aria-controls="dropdown-menu">
+              <button
+                class="button"
+                type="button"
+                aria-haspopup="true"
+                aria-controls="dropdown-menu"
+                (click)="isDropdownActive = !isDropdownActive"
+              >
                 <span>{{ selectedBank || 'Select Bank' }}</span>
                 <span class="icon is-small">
                   <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -77,6 +83,7 @@
           </div>
         </div>
       </div>
+
       <button class="button is-success" type="submit" [disabled]="cardForm.invalid">Save</button>
     </form>
   </div>

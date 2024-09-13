@@ -1,4 +1,4 @@
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -19,7 +19,7 @@ import { UpiIDPipe } from 'src/app/pipes/upi-id.pipe';
 @Component({
   selector: 'app-credit-card',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf, NgFor, AsyncPipe, UpiIDPipe],
+  imports: [ReactiveFormsModule, NgIf, NgFor, AsyncPipe, UpiIDPipe, NgClass],
   templateUrl: './credit-card.component.html',
   styleUrl: './credit-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -102,6 +102,11 @@ export class CreditCardComponent implements OnInit, OnChanges {
   upiIDs: Record<string, string> = {};
 
   /**
+   * Flag to manage dropdown state
+   */
+  isDropdownActive: boolean = false;
+
+  /**
    * Initializes the component by setting up the form and generating UPI IDs.
    */
   ngOnInit(): void {
@@ -160,6 +165,7 @@ export class CreditCardComponent implements OnInit, OnChanges {
    */
   selectBank(selectedBank: string): void {
     this.selectedBank = selectedBank;
+    this.isDropdownActive = false;
     this.cardForm.patchValue({ bank: selectedBank });
   }
 
