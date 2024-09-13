@@ -52,7 +52,18 @@
                   "maximumError": "4kB"
                 }
               ],
-              "outputHashing": "all"
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "aot": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": true,
+              "extractLicenses": true
             },
             "development": {
               "optimization": false,
@@ -116,7 +127,6 @@
     "analytics": false,
     "schematicCollections": [
       "@angular-eslint/schematics",
-      "@angular-eslint/schematics"
     ],
     "cache": {
       "enabled": false
