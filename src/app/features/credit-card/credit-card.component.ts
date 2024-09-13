@@ -5,12 +5,15 @@ import {
   EventEmitter,
   inject,
   Input,
+  OnChanges,
   OnInit,
   Output,
   Renderer2,
+  SimpleChanges,
 } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
+import { Card } from 'src/app/interfaces/card.interface';
 import { UpiIDPipe } from 'src/app/pipes/upi-id.pipe';
 
 @Component({
@@ -21,7 +24,7 @@ import { UpiIDPipe } from 'src/app/pipes/upi-id.pipe';
   styleUrl: './credit-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreditCardComponent implements OnInit {
+export class CreditCardComponent implements OnInit, OnChanges {
   /**
    * List of available banks for selection.
    * @type {string[]}
@@ -56,7 +59,13 @@ export class CreditCardComponent implements OnInit {
    * Input property for the card data.
    * @type {any}
    */
-  @Input() card: any; // Replace `any` with your card model type.
+  @Input() card: Card;
+
+  /**
+   * Input property for the card data.
+   * @type {any}
+   */
+  @Input() enableEditMode: boolean;
 
   /**
    * Output event emitter to handle card deletion.
@@ -83,6 +92,11 @@ export class CreditCardComponent implements OnInit {
   private fb = inject(FormBuilder);
 
   /**
+   * upi id pipe
+   */
+  private upiPipe = inject(UpiIDPipe);
+
+  /**
    * upi id possible values
    */
   upiIDs: Record<string, string> = {};
@@ -92,7 +106,12 @@ export class CreditCardComponent implements OnInit {
    */
   ngOnInit(): void {
     this.initializeForm();
-    this.generateUPIIDs();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.enableEditMode && !this.isEditingSubject.value) {
+      this.isEditingSubject.next(true);
+    }
   }
 
   /**
@@ -149,7 +168,8 @@ export class CreditCardComponent implements OnInit {
    * Also navigates the user to the UPI payment link.
    * @param upiID - The UPI ID for the payment.
    */
-  payViaUPI(upiID: string): void {
+  payViaUPI(): void {
+    const upiID: string = this.upiPipe.transform(this.card);
     this.onPayViaUPI.emit(upiID);
     window.location.href = `upi://pay?pa=${upiID}&pn=BankName&cu=INR`;
   }
@@ -162,24 +182,5 @@ export class CreditCardComponent implements OnInit {
    */
   trackByFn(index: number, bank: string): string {
     return bank;
-  }
-
-  /**
-   * Generates UPI IDs based on the card details such as card number and phone number.
-   * @private
-   */
-  private generateUPIIDs(): void {
-    const creditCard = this.cardForm.get('number')?.value;
-    const mobileNumber = this.cardForm.get('phoneNumber')?.value;
-    const last4Digits = creditCard.slice(-4);
-
-    this.upiIDs = {
-      Axis: `CC.91${mobileNumber}${last4Digits}@axisbank`,
-      ICICI: `ccpay.${creditCard}@icici`,
-      'AU Bank': `AUCC${mobileNumber}${last4Digits}@AUBANK`,
-      IDFC: `${creditCard}.cc@idfcbank`,
-      AMEX: creditCard.length === 15 ? `AEBC${creditCard}@SC` : 'Not applicable for 16-digit cards',
-      SBI: `Sbicard.${creditCard}@SBI`,
-    };
   }
 }

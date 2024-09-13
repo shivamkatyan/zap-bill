@@ -13,11 +13,11 @@
   <div class="card-content is-flex is-flex-direction-row is-justify-content-space-between">
     <div class="content is-flex is-flex-direction-column mb-0">
       <p>Credit Card Number: {{ card.number }}</p>
-      <p>UPI Id: {{ card | upiID:card.bank }}</p>
+      <p>UPI Id: {{ card | upiID }}</p>
 
     </div>
     <div class="is-flex is-justify-content-flex-end">
-      <button class="button is-primary is-outlined is-normal pay-btn" (click)="payViaUPI(card.upiID)">
+      <button class="button is-primary is-outlined is-normal pay-btn" (click)="payViaUPI()">
         <span class="icon">
           <i class="fab fa-google-pay"></i>
         </span>

@@ -1,32 +1,73 @@
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { AfterViewInit, Component, inject } from '@angular/core';
 import { StorageService } from 'src/app/service/storage.service';
 import { CreditCardComponent } from '../credit-card/credit-card.component';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { Card } from 'src/app/interfaces/card.interface';
 
 @Component({
   selector: 'app-card-list',
   standalone: true,
-  imports: [NgFor, CreditCardComponent],
+  imports: [NgIf, NgFor, CreditCardComponent],
   templateUrl: './card-list.component.html',
   styleUrls: ['./card-list.component.scss'],
 })
 export class CardListComponent implements AfterViewInit {
-  creditCards: any[] = [];
+  /**
+   * Array of credit cards to display.
+   * @type {Array<Card>}
+   */
+  creditCards: Card[] = [];
 
+  /**
+   * Pagination for card display. Current page index and page size.
+   * @type {number}
+   */
+  currentPage: number = 1;
+  pageSize: number = 5;
+
+  /**
+   * Storage service instance for managing credit card data.
+   * @type {StorageService}
+   */
   private storageService = inject(StorageService);
 
+  /**
+   * Subject to debounce UPI payments.
+   * @type {Subject<string>}
+   */
+  private payViaUPISubject = new Subject<string>();
+
+  /**
+   * For toggling add card form
+   */
+  addCardMode = false;
+
+  constructor() {
+    // Debouncing UPI payment events to prevent rapid multiple triggers.
+    this.payViaUPISubject.pipe(debounceTime(300)).subscribe((id) => this.processUPIPayment(id));
+  }
+
+  /**
+   * Lifecycle hook that is called after the view has been initialized.
+   */
   ngAfterViewInit(): void {
     this.getCards();
   }
 
-  async getCards() {
+  /**
+   * Fetches all credit cards from storage and initializes the card list.
+   * If no cards are found, a default card is added.
+   * @returns {Promise<void>}
+   */
+  async getCards(): Promise<void> {
     try {
       const cards = await this.storageService.getAllCreditCards();
       if (cards?.length) {
         this.creditCards = [...cards];
       } else {
-        // Initialize with a default card if no cards exist
-        const defaultCard = {
+        const defaultCard: Card = {
           id: 1,
           username: 'John Doe',
           number: '**** **** **** 1234',
@@ -41,7 +82,12 @@ export class CardListComponent implements AfterViewInit {
     }
   }
 
-  async deleteCard(id: number) {
+  /**
+   * Deletes a card by its ID and updates the credit card list.
+   * @param {number} id - The ID of the card to delete.
+   * @returns {Promise<void>}
+   */
+  async deleteCard(id: number): Promise<void> {
     try {
       this.creditCards = this.creditCards.filter((card) => card.id !== id);
       await this.storageService.deleteCreditCard(id);
@@ -50,12 +96,39 @@ export class CardListComponent implements AfterViewInit {
     }
   }
 
-  async payViaUPI(id: number) {
-    console.log('Pay via UPI for card ID:', id);
+  /**
+   * Tracks card items by their unique ID to optimize rendering.
+   * @param {number} index - Index of the item.
+   * @param {Card} card - Card object.
+   * @returns {number} - The unique ID of the card.
+   */
+  trackByCardId(index: number, card: Card): number {
+    return card.id;
+  }
+
+  /**
+   * Debounces the UPI payment for a card by its ID.
+   * @param {number} id - The ID of the card for payment.
+   */
+  payViaUPI(id: string): void {
+    this.payViaUPISubject.next(id);
+  }
+
+  /**
+   * Processes the UPI payment after debounce.
+   * @param {number} id - The ID of the card for payment.
+   */
+  private processUPIPayment(id: string): void {
+    console.log('Processing UPI payment for card ID:', id);
     // Add your UPI payment logic here
   }
 
-  async addCard(card: any) {
+  /**
+   * Adds a new card to the list and stores it in storage.
+   * @param {Card} card - The new card to add.
+   * @returns {Promise<void>}
+   */
+  async addCard(card: Card): Promise<void> {
     this.creditCards.push(card);
     try {
       await this.storageService.storeAllCreditCards(this.creditCards);
@@ -64,9 +137,13 @@ export class CardListComponent implements AfterViewInit {
     }
   }
 
-  async updateCard(updatedCard: any) {
+  /**
+   * Updates an existing card's information and stores the updated list in storage.
+   * @param {Card} updatedCard - The updated card data.
+   * @returns {Promise<void>}
+   */
+  async updateCard(updatedCard: Card): Promise<void> {
     try {
-      // Find and update the existing card
       const index = this.creditCards.findIndex((card) => card.id === updatedCard.id);
       if (index !== -1) {
         this.creditCards[index] = updatedCard;
@@ -77,5 +154,45 @@ export class CardListComponent implements AfterViewInit {
     } catch (error) {
       console.error('Error updating card:', error);
     }
+  }
+
+  /**
+   * Returns a subset of cards for pagination purposes.
+   * @returns {Card[]} - A list of cards for the current page.
+   */
+  getPaginatedCards(): Card[] {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    return this.creditCards.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  /**
+   * Moves to the next page.
+   */
+  nextPage(): void {
+    if (this.currentPage * this.pageSize < this.creditCards.length) {
+      this.currentPage++;
+    }
+  }
+
+  /**
+   * Moves to the previous page.
+   */
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  showAddCardModal() {
+    this.addCardMode = true;
+  }
+
+  cancelAddCard() {
+    this.addCardMode = false;
+  }
+
+  async handleAddCard(newCard: Card) {
+    await this.addCard(newCard); // Reusing the existing addCard method
+    this.addCardMode = false; // Close the form after adding
   }
 }

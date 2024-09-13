@@ -1,5 +1,31 @@
-<div class="is-size-2 pb-5 has-text-centered is-capitalized has-text-weight-medium">Added Cards</div>
+<div class="card-header is-justify-content-space-between is-align-items-center">
+  <div class="is-size-2 pb-5 has-text-centered is-capitalized has-text-weight-medium">Added Cards</div>
+  
+  <!-- Add Card Button -->
+  <button class="button is-primary is-outlined add-card-btn" (click)="showAddCardModal()">Add Card</button>
+</div>
 
-<div *ngFor="let card of creditCards">
-  <app-credit-card [card]="card"  (save)="updateCard($event)" (onDelete)="deleteCard($event)" (onPayViaUPI)="payViaUPI($event) "/>
+<!-- Add Card Form -->
+<div *ngIf="addCardMode">
+  <app-credit-card 
+    [card]="{ id: creditCards.length + 1, username: '', number: '', phoneNumber: 0, bank: '' }" 
+    [enableEditMode]="true" 
+    (save)="handleAddCard($event)"
+    (onDelete)="cancelAddCard()">
+  </app-credit-card>
+</div>
+
+<!-- Existing Cards -->
+<div *ngFor="let card of getPaginatedCards(); trackBy: trackByCardId">
+  <app-credit-card 
+    [card]="card"  
+    (save)="updateCard($event)" 
+    (onDelete)="deleteCard($event)">
+  </app-credit-card>
+</div>
+
+<!-- Pagination -->
+<div class="pagination">
+  <button class="button" (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+  <button class="button" (click)="nextPage()" [disabled]="currentPage * pageSize >= creditCards.length">Next</button>
 </div>

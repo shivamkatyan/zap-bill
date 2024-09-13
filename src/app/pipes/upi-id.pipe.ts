@@ -1,11 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { Card } from '../interfaces/card.interface';
 
 @Pipe({
   name: 'upiID',
   standalone: true,
 })
 export class UpiIDPipe implements PipeTransform {
-  transform(card: { number: string; phoneNumber: string }, bank: string): string {
+  transform(card: Card): string {
     const creditCard = card.number;
     const mobileNumber = card.phoneNumber;
     const last4Digits = creditCard.slice(-4);
@@ -19,6 +20,6 @@ export class UpiIDPipe implements PipeTransform {
       SBI: `Sbicard.${creditCard}@SBI`,
     };
 
-    return upiIDs[bank] || 'UPI ID not available';
+    return upiIDs[card.bank] || 'UPI ID not available';
   }
 }
