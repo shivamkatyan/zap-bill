@@ -1,43 +1,190 @@
-// @ts-check
-const eslint = require("@eslint/js");
-const tseslint = require("typescript-eslint");
-const angular = require("angular-eslint");
-
-module.exports = tseslint.config(
-  {
-    files: ["**/*.ts"],
-    extends: [
-      eslint.configs.recommended,
-      ...tseslint.configs.recommended,
-      ...tseslint.configs.stylistic,
-      ...angular.configs.tsRecommended,
-    ],
-    processor: angular.processInlineTemplates,
-    rules: {
-      "@angular-eslint/directive-selector": [
-        "error",
-        {
-          type: "attribute",
-          prefix: "app",
-          style: "camelCase",
-        },
+export default {
+  root: true,
+  ignorePatterns: ['projects/**/*'],
+  overrides: [
+    {
+      files: ['*.ts'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        project: ['tsconfig.json', 'e2e/tsconfig.json'],
+        createDefaultProgram: true,
+      },
+      env: {
+        browser: true,
+        es6: true,
+        node: true,
+      },
+      plugins: [
+        '@typescript-eslint',
+        '@angular-eslint',
+        'eslint-plugin-import',
+        'eslint-plugin-jsdoc',
+        'eslint-plugin-prefer-arrow',
       ],
-      "@angular-eslint/component-selector": [
-        "error",
-        {
-          type: "element",
-          prefix: "app",
-          style: "kebab-case",
-        },
-      ],
+      rules: {
+        '@typescript-eslint/adjacent-overload-signatures': 'error',
+        '@typescript-eslint/await-thenable': 'error',
+        '@typescript-eslint/ban-tslint-comment': 'warn',
+        '@typescript-eslint/ban-types': 'error',
+        '@typescript-eslint/consistent-generic-constructors': ['warn', 'type-annotation'],
+        '@typescript-eslint/consistent-indexed-object-style': ['warn', 'record'],
+        '@typescript-eslint/explicit-function-return-type': [
+          'warn',
+          {
+            allowExpressions: true,
+          },
+        ],
+        '@typescript-eslint/explicit-member-accessibility': [
+          'warn',
+          {
+            accessibility: 'explicit',
+            overrides: {
+              accessors: 'explicit',
+              constructors: 'off',
+              methods: 'explicit',
+              properties: 'explicit',
+              parameterProperties: 'explicit',
+            },
+          },
+        ],
+        '@typescript-eslint/explicit-module-boundary-types': 'warn',
+        '@typescript-eslint/method-signature-style': ['warn', 'method'],
+        '@typescript-eslint/no-base-to-string': 'warn',
+        '@typescript-eslint/no-confusing-non-null-assertion': 'warn',
+        '@typescript-eslint/no-confusing-void-expression': ['warn', { ignoreArrowShorthand: true }],
+        '@typescript-eslint/no-duplicate-enum-values': 'warn',
+        '@typescript-eslint/no-empty-interface': 'error',
+        '@typescript-eslint/no-dynamic-delete': 'warn',
+        '@typescript-eslint/no-extra-non-null-assertion': 'error',
+        '@typescript-eslint/no-for-in-array': 'error',
+        '@typescript-eslint/no-invalid-void-type': ['warn', { allowInGenericTypeArguments: true }],
+        '@typescript-eslint/no-meaningless-void-operator': ['warn', { checkNever: false }],
+        '@typescript-eslint/no-misused-new': 'error',
+        '@typescript-eslint/no-misused-promises': 'error',
+        '@typescript-eslint/no-non-null-asserted-nullish-coalescing': 'warn',
+        '@typescript-eslint/no-non-null-asserted-optional-chain': 'error',
+        '@typescript-eslint/no-non-null-assertion': 'warn',
+        '@typescript-eslint/no-redundant-type-constituents': 'warn',
+        '@typescript-eslint/no-require-imports': 'warn',
+        '@typescript-eslint/no-this-alias': 'error',
+        '@typescript-eslint/no-unnecessary-type-arguments': 'warn',
+        '@typescript-eslint/consistent-type-assertions': [
+          'warn',
+          { assertionStyle: 'as', objectLiteralTypeAssertions: 'allow-as-parameter' },
+        ],
+        '@angular-eslint/component-selector': [
+          'error',
+          {
+            type: 'element',
+            prefix: 'app',
+            style: 'kebab-case',
+          },
+        ],
+        '@angular-eslint/directive-selector': [
+          'error',
+          {
+            type: 'attribute',
+            prefix: 'app',
+            style: 'camelCase',
+          },
+        ],
+        '@typescript-eslint/no-explicit-any': 'warn',
+        '@typescript-eslint/no-inferrable-types': 'off',
+        '@typescript-eslint/restrict-plus-operands': 'error',
+        complexity: [
+          'error',
+          {
+            max: 15,
+          },
+        ],
+        'no-sparse-arrays': 'error',
+        'no-template-curly-in-string': 'error',
+        'no-underscore-dangle': ['error', { allowAfterThis: true, allowAfterSuper: true }],
+        '@typescript-eslint/member-ordering': [
+          'error',
+          {
+            default: {
+              memberTypes: ['static-field', 'instance-field', 'static-method', 'instance-method'],
+            },
+          },
+        ],
+        'no-trailing-spaces': ['error', { skipBlankLines: true, ignoreComments: true }],
+        '@typescript-eslint/naming-convention': [
+          'error',
+          {
+            selector: 'variable',
+            format: ['camelCase', 'UPPER_CASE'],
+            leadingUnderscore: 'allow',
+          },
+          {
+            selector: 'function',
+            format: ['camelCase'],
+          },
+          {
+            selector: 'class',
+            format: ['PascalCase'],
+          },
+          {
+            selector: 'enum',
+            format: ['PascalCase'],
+          },
+          {
+            selector: 'interface',
+            format: ['PascalCase'],
+            prefix: ['I'],
+          },
+          {
+            selector: 'enumMember',
+            format: ['PascalCase', 'UPPER_CASE'],
+          },
+          {
+            selector: 'parameter',
+            format: ['camelCase'],
+            leadingUnderscore: 'allow',
+          },
+        ],
+        '@typescript-eslint/no-unnecessary-type-constraint': 'error',
+        '@typescript-eslint/no-unsafe-declaration-merging': 'warn',
+        '@typescript-eslint/no-useless-empty-export': 'warn',
+        '@typescript-eslint/no-var-requires': 'error',
+        '@typescript-eslint/prefer-enum-initializers': 'warn',
+        '@typescript-eslint/prefer-for-of': 'warn',
+        '@typescript-eslint/prefer-literal-enum-member': 'warn',
+        '@typescript-eslint/prefer-optional-chain': 'warn',
+        '@typescript-eslint/prefer-reduce-type-parameter': 'warn',
+        '@typescript-eslint/prefer-regexp-exec': 'warn',
+        '@typescript-eslint/prefer-string-starts-ends-with': 'warn',
+        '@typescript-eslint/triple-slash-reference': 'error',
+        'no-unused-vars': 'off',
+        curly: 'error',
+        '@typescript-eslint/no-unused-vars': ['warn', { varsIgnorePattern: '_', argsIgnorePattern: '_' }],
+        'jsdoc/newline-after-description': 0,
+        '@typescript-eslint/no-unused-expressions': ['error', { allowTernary: true, allowShortCircuit: true }],
+        '@typescript-eslint/typedef': [
+          'error',
+          {
+            memberVariableDeclaration: true,
+            variableDeclaration: true,
+            parameter: true,
+            propertyDeclaration: true,
+          },
+        ],
+        'require-jsdoc': 'warn',
+        'no-console': 'error',
+      },
     },
-  },
-  {
-    files: ["**/*.html"],
-    extends: [
-      ...angular.configs.templateRecommended,
-      ...angular.configs.templateAccessibility,
-    ],
-    rules: {},
-  }
-);
+    {
+      files: ['*.html'],
+      extends: ['plugin:@angular-eslint/template/recommended'],
+      rules: {
+        '@angular-eslint/template/no-negated-async': 'off',
+        '@angular-eslint/template/eqeqeq': [
+          'error',
+          {
+            allowNullOrUndefined: true,
+          },
+        ],
+      },
+    },
+  ],
+};

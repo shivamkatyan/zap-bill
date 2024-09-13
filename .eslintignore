@@ -1,0 +1,4 @@
+*.spec.ts
+node_modules/
+src/assets
+polyfills.ts

@@ -1,4 +1,4 @@
-<div class="card p-4 mb-5" *ngIf="!isEditing">
+<div class="card p-4 mb-5" *ngIf="!(isEditing$ | async)">
   <header class="card-header">
     <p class="card-header-title is-capitalized">{{ card.username }} ({{ card.phoneNumber }})</p>
     <div class="card-header-icon">
@@ -13,10 +13,11 @@
   <div class="card-content is-flex is-flex-direction-row is-justify-content-space-between">
     <div class="content is-flex is-flex-direction-column mb-0">
       <p>Credit Card Number: {{ card.number }}</p>
-      <p>UPI Id: {{ card.upiID }}</p>
+      <p>UPI Id: {{ card | upiID:card.bank }}</p>
+
     </div>
     <div class="is-flex is-justify-content-flex-end">
-      <button class="button is-primary is-outlined is-normal pay-btn" (click)="payViaUPI(card.id)">
+      <button class="button is-primary is-outlined is-normal pay-btn" (click)="payViaUPI(card.upiID)">
         <span class="icon">
           <i class="fab fa-google-pay"></i>
         </span>
@@ -26,49 +27,51 @@
 </div>
 
 <!-- Editable Mode -->
-<div class="card p-5 mb-5" *ngIf="isEditing">
+<div class="card p-5 mb-5" *ngIf="isEditing$ | async">
   <div class="card-content">
-    <div class="field">
-      <label class="label">Name</label>
-      <div class="control">
-        <input class="input" type="text" [(ngModel)]="card.username" placeholder="Enter name" />
+    <form [formGroup]="cardForm" (ngSubmit)="saveChanges()">
+      <div class="field">
+        <label class="label">Name</label>
+        <div class="control">
+          <input class="input" formControlName="username" placeholder="Enter name" />
+        </div>
       </div>
-    </div>
-    <div class="field">
-      <label class="label">Phone Number</label>
-      <div class="control">
-        <input class="input" type="text" [(ngModel)]="card.phoneNumber" placeholder="Enter phone number" />
+      <div class="field">
+        <label class="label">Phone Number</label>
+        <div class="control">
+          <input class="input" formControlName="phoneNumber" placeholder="Enter phone number" />
+        </div>
       </div>
-    </div>
-    <div class="field">
-      <label class="label">Credit Card Number</label>
-      <div class="control">
-        <input class="input" type="text" [(ngModel)]="card.number" placeholder="Enter card number" />
+      <div class="field">
+        <label class="label">Credit Card Number</label>
+        <div class="control">
+          <input class="input" formControlName="number" placeholder="Enter card number" />
+        </div>
       </div>
-    </div>
-    <div class="field">
-      <label class="label">Bank</label>
-      <div class="control">
-        <div class="dropdown is-active" id="bank-selector">
-          <div class="dropdown-trigger">
-            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-              <span>{{ card.bank || 'Select Bank' }}</span>
-              <span class="icon is-small">
-                <i class="fas fa-angle-down" aria-hidden="true"></i>
-              </span>
-            </button>
-          </div>
-          <div class="dropdown-menu" id="dropdown-menu" role="menu">
-            <div class="dropdown-content">
-              <a *ngFor="let bank of listOfBanks" class="dropdown-item" (click)="selectBank(bank)">
-                {{ bank }}
-              </a>
-              <hr class="dropdown-divider" />
+      <div class="field">
+        <label class="label">Bank</label>
+        <div class="control">
+          <div class="dropdown is-active" id="bank-selector">
+            <div class="dropdown-trigger">
+              <button class="button" type="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                <span>{{ selectedBank || 'Select Bank' }}</span>
+                <span class="icon is-small">
+                  <i class="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+              </button>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+              <div class="dropdown-content">
+                <a *ngFor="let bank of listOfBanks" class="dropdown-item" (click)="selectBank(bank)">
+                  {{ bank }}
+                </a>
+                <hr class="dropdown-divider" />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <button class="button is-success" (click)="saveChanges()">Save</button>
+      <button class="button is-success" type="submit" [disabled]="cardForm.invalid">Save</button>
+    </form>
   </div>
 </div>
