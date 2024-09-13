@@ -69,8 +69,8 @@ export class CardListComponent implements AfterViewInit {
       } else {
         const defaultCard: Card = {
           id: 1,
-          username: 'John Doe',
-          number: '**** **** **** 1234',
+          username: 'Demo Card',
+          number: '1234123412341234',
           phoneNumber: 1234567890,
           bank: 'icici',
         };
