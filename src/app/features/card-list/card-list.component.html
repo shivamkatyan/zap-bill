@@ -14,7 +14,7 @@
         [enableEditMode]="true"
         (save)="handleAddCard($event)"
         (onDelete)="cancelAddCard(); deleteCard($event)"
-        >
+      >
       </app-credit-card>
     </div>
   }
@@ -23,6 +23,14 @@
   @for (card of getPaginatedCards(); track trackByCardId($index, card)) {
     <div>
       <app-credit-card [card]="card" (save)="updateCard($event)" (onDelete)="deleteCard($event)"> </app-credit-card>
+    </div>
+  } @empty {
+    <div>
+      <div
+        class="card p-2 mb-5 is-flex is-align-items-center is-justify-content-center has-text-white has-text-weight-bold is-size-5 is-italic"
+      >
+        No cards added yet
+      </div>
     </div>
   }
 

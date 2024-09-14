@@ -11,3 +11,11 @@ body {
 .container {
   min-width: 320px;
 }
+.card {
+  max-width: 400px;
+  min-width: 320px;
+  min-height: 312px;
+  //   margin: 20px auto; /* Centers the card and adds vertical spacing */
+  //   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for better appearance */
+  //   border-radius: 8px; /* Adds rounded corners */
+}

@@ -57,15 +57,15 @@ export class CardListComponent implements AfterViewInit {
       if (cards?.length) {
         this.creditCards = [...cards];
       } else {
-        const defaultCard: Card = {
-          id: 1,
-          username: 'Demo Card',
-          number: '1234123412341234',
-          phoneNumber: 1234567890,
-          bank: 'icici',
-        };
-        await this.storageService.addCard(defaultCard);
-        this.creditCards = [defaultCard];
+        // const defaultCard: Card = {
+        //   id: 1,
+        //   username: 'Demo Card',
+        //   number: '1234123412341234',
+        //   phoneNumber: 1234567890,
+        //   bank: 'icici',
+        // };
+        // await this.storageService.addCard(defaultCard);
+        // this.creditCards = [defaultCard];
       }
     } catch (error) {
       console.error('Error fetching cards:', error);
