@@ -7,20 +7,24 @@
   </div>
 
   <!-- Add Card Form -->
-  <div *ngIf="addCardMode">
-    <app-credit-card
-      [card]="{ id: creditCards.length + 1, username: '', number: '', phoneNumber: 0, bank: '' }"
-      [enableEditMode]="true"
-      (save)="handleAddCard($event)"
-      (onDelete)="cancelAddCard(); deleteCard($event)"
-    >
-    </app-credit-card>
-  </div>
+  @if (addCardMode) {
+    <div>
+      <app-credit-card
+        [card]="{ id: creditCards.length + 1, username: '', number: '', phoneNumber: 0, bank: '' }"
+        [enableEditMode]="true"
+        (save)="handleAddCard($event)"
+        (onDelete)="cancelAddCard(); deleteCard($event)"
+        >
+      </app-credit-card>
+    </div>
+  }
 
   <!-- Existing Cards -->
-  <div *ngFor="let card of getPaginatedCards(); trackBy: trackByCardId">
-    <app-credit-card [card]="card" (save)="updateCard($event)" (onDelete)="deleteCard($event)"> </app-credit-card>
-  </div>
+  @for (card of getPaginatedCards(); track trackByCardId($index, card)) {
+    <div>
+      <app-credit-card [card]="card" (save)="updateCard($event)" (onDelete)="deleteCard($event)"> </app-credit-card>
+    </div>
+  }
 
   <!-- Pagination -->
   <div class="pagination">

@@ -1,90 +1,95 @@
-<div class="card p-4 mb-5" *ngIf="!(isEditing$ | async)">
-  <header class="card-header is-justify-content-flex-end">
-    <p class="card-header-title is-capitalized">{{ card.username }} ({{ card.phoneNumber }})</p>
-    <div class="card-header-icon">
-      <span class="icon has-text-primary">
-        <i class="fas fa-edit" (click)="toggleEdit()"></i>
-      </span>
-      <span class="icon has-text-danger">
-        <i class="fas fa-trash" (click)="deleteCard(card.id)"></i>
-      </span>
-    </div>
-  </header>
-  <div class="card-content is-flex is-flex-direction-row is-justify-content-space-between">
-    <div class="content is-flex is-flex-direction-column mb-0">
-      <p>Credit Card Number: {{ card.number }}</p>
-      <p>UPI Id: {{ card | upiID }}</p>
-    </div>
-    <div class="is-flex is-justify-content-flex-end">
-      <button class="button is-primary is-outlined is-normal pay-btn" (click)="payViaUPI()">
-        <span class="icon">
-          <i class="fab fa-google-pay"></i>
+@if (!(isEditing$ | async)) {
+  <div class="card p-4 mb-5">
+    <header class="card-header is-justify-content-flex-end">
+      <p class="card-header-title is-capitalized">{{ card.username }} ({{ card.phoneNumber }})</p>
+      <div class="card-header-icon">
+        <span class="icon has-text-primary">
+          <i class="fas fa-edit" (click)="toggleEdit()"></i>
         </span>
-      </button>
+        <span class="icon has-text-danger">
+          <i class="fas fa-trash" (click)="deleteCard(card.id)"></i>
+        </span>
+      </div>
+    </header>
+    <div class="card-content is-flex is-flex-direction-row is-justify-content-space-between">
+      <div class="content is-flex is-flex-direction-column mb-0">
+        <p>Credit Card Number: {{ card.number }}</p>
+        <p>UPI Id: {{ card | upiID }}</p>
+      </div>
+      <div class="is-flex is-justify-content-flex-end">
+        <button class="button is-primary is-outlined is-normal pay-btn" (click)="payViaUPI()">
+          <span class="icon">
+            <i class="fab fa-google-pay"></i>
+          </span>
+        </button>
+      </div>
     </div>
   </div>
-</div>
+}
 
 <!-- Editable Mode -->
-<div class="card p-5 mb-5" *ngIf="isEditing$ | async">
-  <header class="card-header">
-    <div class="card-header-icon">
-      <span class="icon has-text-danger">
-        <i class="fas fa-trash" (click)="deleteCard(card.id)"></i>
-      </span>
-    </div>
-  </header>
-  <div class="card-content">
-    <form [formGroup]="cardForm" (ngSubmit)="saveChanges()">
-      <div class="field">
-        <label class="label">Name</label>
-        <div class="control">
-          <input class="input" formControlName="username" placeholder="Enter name" />
-        </div>
+@if (isEditing$ | async) {
+  <div class="card p-5 mb-5">
+    <header class="card-header">
+      <div class="card-header-icon">
+        <span class="icon has-text-danger">
+          <i class="fas fa-trash" (click)="deleteCard(card.id)"></i>
+        </span>
       </div>
-      <div class="field">
-        <label class="label">Phone Number</label>
-        <div class="control">
-          <input class="input" formControlName="phoneNumber" placeholder="Enter phone number" />
+    </header>
+    <div class="card-content">
+      <form [formGroup]="cardForm" (ngSubmit)="saveChanges()">
+        <div class="field">
+          <label class="label">Name</label>
+          <div class="control">
+            <input class="input" formControlName="username" placeholder="Enter name" />
+          </div>
         </div>
-      </div>
-      <div class="field">
-        <label class="label">Credit Card Number</label>
-        <div class="control">
-          <input class="input" formControlName="number" placeholder="Enter card number" />
+        <div class="field">
+          <label class="label">Phone Number</label>
+          <div class="control">
+            <input class="input" formControlName="phoneNumber" placeholder="Enter phone number" />
+          </div>
         </div>
-      </div>
-      <div class="field">
-        <label class="label">Bank</label>
-        <div class="control">
-          <div class="dropdown" [ngClass]="{ 'is-active': isDropdownActive }" id="bank-selector">
-            <div class="dropdown-trigger">
-              <button
-                class="button"
-                type="button"
-                aria-haspopup="true"
-                aria-controls="dropdown-menu"
-                (click)="isDropdownActive = !isDropdownActive"
-              >
-                <span>{{ (selectedBank | uppercase) || 'Select Bank' }}</span>
-                <span class="icon is-small">
-                  <i class="fas fa-angle-down" aria-hidden="true"></i>
-                </span>
-              </button>
-            </div>
-            <div class="dropdown-menu" id="dropdown-menu" role="menu">
-              <div class="dropdown-content">
-                <a *ngFor="let bank of listOfBanks" class="dropdown-item" (click)="selectBank(bank)">
-                  {{ bank }}
-                </a>
-                <hr class="dropdown-divider" />
+        <div class="field">
+          <label class="label">Credit Card Number</label>
+          <div class="control">
+            <input class="input" formControlName="number" placeholder="Enter card number" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Bank</label>
+          <div class="control">
+            <div class="dropdown" [ngClass]="{ 'is-active': isDropdownActive }" id="bank-selector">
+              <div class="dropdown-trigger">
+                <button
+                  class="button"
+                  type="button"
+                  aria-haspopup="true"
+                  aria-controls="dropdown-menu"
+                  (click)="isDropdownActive = !isDropdownActive"
+                  >
+                  <span>{{ (selectedBank | uppercase) || 'Select Bank' }}</span>
+                  <span class="icon is-small">
+                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                </button>
+              </div>
+              <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                <div class="dropdown-content">
+                  @for (bank of listOfBanks; track bank) {
+                    <a class="dropdown-item" (click)="selectBank(bank)">
+                      {{ bank }}
+                    </a>
+                  }
+                  <hr class="dropdown-divider" />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <button class="button is-success" type="submit" [disabled]="cardForm.invalid">Save</button>
-    </form>
+        <button class="button is-success" type="submit" [disabled]="cardForm.invalid">Save</button>
+      </form>
+    </div>
   </div>
-</div>
+}

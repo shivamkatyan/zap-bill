@@ -1,15 +1,15 @@
-import { NgFor, NgIf } from '@angular/common';
+
 import { AfterViewInit, Component, inject } from '@angular/core';
-import { StorageService } from 'src/app/service/storage.service';
-import { CreditCardComponent } from '../credit-card/credit-card.component';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { Card } from 'src/app/interfaces/card.interface';
+import { StorageService } from 'src/app/service/storage.service';
+import { CreditCardComponent } from '../credit-card/credit-card.component';
 
 @Component({
   selector: 'app-card-list',
   standalone: true,
-  imports: [NgIf, NgFor, CreditCardComponent],
+  imports: [CreditCardComponent],
   templateUrl: './card-list.component.html',
   styleUrls: ['./card-list.component.scss'],
 })
