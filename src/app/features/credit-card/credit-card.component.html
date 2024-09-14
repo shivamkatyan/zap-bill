@@ -1,5 +1,5 @@
 <div class="card p-4 mb-5" *ngIf="!(isEditing$ | async)">
-  <header class="card-header">
+  <header class="card-header is-justify-content-flex-end">
     <p class="card-header-title is-capitalized">{{ card.username }} ({{ card.phoneNumber }})</p>
     <div class="card-header-icon">
       <span class="icon has-text-primary">
@@ -66,7 +66,7 @@
                 aria-controls="dropdown-menu"
                 (click)="isDropdownActive = !isDropdownActive"
               >
-                <span>{{ selectedBank || 'Select Bank' }}</span>
+                <span>{{ (selectedBank | uppercase) || 'Select Bank' }}</span>
                 <span class="icon is-small">
                   <i class="fas fa-angle-down" aria-hidden="true"></i>
                 </span>

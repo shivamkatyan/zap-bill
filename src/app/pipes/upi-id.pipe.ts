@@ -12,12 +12,12 @@ export class UpiIDPipe implements PipeTransform {
     const last4Digits = creditCard.slice(-4);
 
     const upiIDs: Record<string, string> = {
-      Axis: `CC.91${mobileNumber}${last4Digits}@axisbank`,
-      ICICI: `ccpay.${creditCard}@icici`,
-      'AU Bank': `AUCC${mobileNumber}${last4Digits}@AUBANK`,
-      IDFC: `${creditCard}.cc@idfcbank`,
-      AMEX: creditCard.length === 15 ? `AEBC${creditCard}@SC` : 'Not applicable for 16-digit cards',
-      SBI: `Sbicard.${creditCard}@SBI`,
+      'axis': `CC.91${mobileNumber}${last4Digits}@axisbank`,
+      'icici': `ccpay.${creditCard}@icici`,
+      'au bank': `AUCC${mobileNumber}${last4Digits}@AUBANK`,
+      'idfc': `${creditCard}.cc@idfcbank`,
+      'amex': creditCard.length === 15 ? `AEBC${creditCard}@SC` : 'Not applicable for 16-digit cards',
+      'sbi': `Sbicard.${creditCard}@SBI`,
     };
 
     return upiIDs[card.bank] || 'UPI ID not available';

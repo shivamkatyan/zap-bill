@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass, NgFor, NgIf, UpperCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -19,7 +19,7 @@ import { UpiIDPipe } from 'src/app/pipes/upi-id.pipe';
 @Component({
   selector: 'app-credit-card',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf, NgFor, AsyncPipe, UpiIDPipe, NgClass],
+  imports: [ReactiveFormsModule, NgIf, NgFor, AsyncPipe, UpiIDPipe, NgClass, UpperCasePipe],
   templateUrl: './credit-card.component.html',
   styleUrl: './credit-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
