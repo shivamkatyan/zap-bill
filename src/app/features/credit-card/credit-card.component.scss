@@ -26,3 +26,7 @@
 .pay-btn {
   max-height: 2.5rem;
 }
+#bank-selector.dropdown,
+#bank-selector.dropdown>.dropdown-trigger {
+  width: 100% !important;
+}

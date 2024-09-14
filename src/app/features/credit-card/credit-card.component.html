@@ -1,9 +1,9 @@
 @let isEditing = isEditing$ | async;
 
 @if (!isEditing) {
-  <div class="card p-4 mb-5">
+  <div class="card p-2 mb-5">
     <header class="card-header">
-      <p class="card-header-title is-capitalized">{{ card.username }} ({{ card.phoneNumber }})</p>
+      <p class="card-header-title is-capitalized">{{ card.username }}</p>
       <div class="card-header-icon">
         <span class="icon has-text-primary">
           <i class="fas fa-edit" (click)="toggleEdit()"></i>
@@ -15,22 +15,26 @@
     </header>
     <div class="card-content is-flex is-flex-direction-row is-justify-content-space-between">
       <div class="content is-flex is-flex-direction-column mb-0">
-        <p>Credit Card Number: {{ card.number }}</p>
-        <p>
-          UPI ID: <span #upiId>{{ card | upiID }}</span>
-        </p>
+        <div class="is-flex is-flex-direction-column">
+          <div>Phone Number:</div>
+          <div class="has-text-weight-bold has-text-white mb-3">{{ card.phoneNumber }}</div>
+          <div>Credit Card Number:</div>
+          <div class="has-text-weight-bold has-text-white mb-3">{{ card.number }}</div>
+          <div>UPI ID:</div>
+          <div #upiId class="has-text-weight-bold has-text-white mb-3">{{ card | upiID }}</div>
+        </div>
       </div>
     </div>
-      <div class="is-flex is-justify-content-flex-end is-align-items-flex-end">
-        <button class="button is-primary is-outlined is-normal pay-btn" (click)="payViaUPI()">
-          <span class="icon">
-            <i class="fab fa-google-pay"></i>
-          </span>
-        </button>
-      </div>
+    <div class="is-flex is-justify-content-center is-align-items-center pb-2">
+      <button class="button is-primary is-outlined is-normal pay-btn" (click)="payViaUPI()">
+        <span class="icon">
+          <i class="fab fa-google-pay"></i>
+        </span>
+      </button>
+    </div>
   </div>
 } @else {
-  <div class="card p-5 mb-5">
+  <div class="card p-2 mb-5">
     <header class="card-header is-justify-content-flex-end">
       <div class="card-header-icon">
         <span class="icon has-text-danger">
@@ -64,7 +68,7 @@
             <div class="dropdown" [ngClass]="{ 'is-active': isDropdownActive }" id="bank-selector">
               <div class="dropdown-trigger">
                 <button
-                  class="button"
+                  class="button is-fullwidth"
                   type="button"
                   aria-haspopup="true"
                   aria-controls="dropdown-menu"
@@ -80,7 +84,7 @@
                 <div class="dropdown-content">
                   @for (bank of listOfBanks; track bank) {
                     <a class="dropdown-item" (click)="selectBank(bank)">
-                      {{ bank }}
+                      {{ bank | uppercase }}
                     </a>
                   }
                   <hr class="dropdown-divider" />
@@ -89,7 +93,7 @@
             </div>
           </div>
         </div>
-        <div class="is-inline-flex is-justify-content-flex-end" style="width: 100%">
+        <div class="is-inline-flex is-justify-content-center mt-3" style="width: 100%">
           <button class="button is-success" [disabled]="cardForm.invalid" (click)="saveChanges()">Save</button>
         </div>
       </form>
