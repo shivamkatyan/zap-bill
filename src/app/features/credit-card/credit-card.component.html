@@ -20,6 +20,7 @@
           UPI ID: <span #upiId>{{ card | upiID }}</span>
         </p>
       </div>
+    </div>
       <div class="is-flex is-justify-content-flex-end is-align-items-flex-end">
         <button class="button is-primary is-outlined is-normal pay-btn" (click)="payViaUPI()">
           <span class="icon">
@@ -27,7 +28,6 @@
           </span>
         </button>
       </div>
-    </div>
   </div>
 } @else {
   <div class="card p-5 mb-5">
