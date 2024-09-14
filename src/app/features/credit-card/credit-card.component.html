@@ -1,6 +1,8 @@
-@if (!(isEditing$ | async)) {
+@let isEditing = isEditing$ | async;
+
+@if (!isEditing) {
   <div class="card p-4 mb-5">
-    <header class="card-header is-justify-content-flex-end">
+    <header class="card-header">
       <p class="card-header-title is-capitalized">{{ card.username }} ({{ card.phoneNumber }})</p>
       <div class="card-header-icon">
         <span class="icon has-text-primary">
@@ -14,9 +16,11 @@
     <div class="card-content is-flex is-flex-direction-row is-justify-content-space-between">
       <div class="content is-flex is-flex-direction-column mb-0">
         <p>Credit Card Number: {{ card.number }}</p>
-        <p>UPI Id: {{ card | upiID }}</p>
+        <p>
+          UPI ID: <span #upiId>{{ card | upiID }}</span>
+        </p>
       </div>
-      <div class="is-flex is-justify-content-flex-end">
+      <div class="is-flex is-justify-content-flex-end is-align-items-flex-end">
         <button class="button is-primary is-outlined is-normal pay-btn" (click)="payViaUPI()">
           <span class="icon">
             <i class="fab fa-google-pay"></i>
@@ -25,12 +29,9 @@
       </div>
     </div>
   </div>
-}
-
-<!-- Editable Mode -->
-@if (isEditing$ | async) {
+} @else {
   <div class="card p-5 mb-5">
-    <header class="card-header">
+    <header class="card-header is-justify-content-flex-end">
       <div class="card-header-icon">
         <span class="icon has-text-danger">
           <i class="fas fa-trash" (click)="deleteCard(card.id)"></i>
@@ -68,7 +69,7 @@
                   aria-haspopup="true"
                   aria-controls="dropdown-menu"
                   (click)="isDropdownActive = !isDropdownActive"
-                  >
+                >
                   <span>{{ (selectedBank | uppercase) || 'Select Bank' }}</span>
                   <span class="icon is-small">
                     <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -88,7 +89,9 @@
             </div>
           </div>
         </div>
-        <button class="button is-success" type="submit" [disabled]="cardForm.invalid">Save</button>
+        <div class="is-inline-flex is-justify-content-flex-end" style="width: 100%">
+          <button class="button is-success" [disabled]="cardForm.invalid" (click)="saveChanges()">Save</button>
+        </div>
       </form>
     </div>
   </div>

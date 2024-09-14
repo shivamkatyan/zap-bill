@@ -2,6 +2,7 @@ import { AsyncPipe, NgClass, UpperCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   inject,
   Input,
@@ -9,6 +10,7 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  ViewChild
 } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
@@ -73,12 +75,6 @@ export class CreditCardComponent implements OnInit, OnChanges {
   @Output() onDelete: EventEmitter<number> = new EventEmitter();
 
   /**
-   * Output event emitter to handle UPI payments.
-   * @type {EventEmitter<string>}
-   */
-  @Output() onPayViaUPI: EventEmitter<string> = new EventEmitter();
-
-  /**
    * Output event emitter to handle saving the card details.
    * @type {EventEmitter<any>}
    */
@@ -91,11 +87,6 @@ export class CreditCardComponent implements OnInit, OnChanges {
   private fb = inject(FormBuilder);
 
   /**
-   * upi id pipe
-   */
-  // private upiPipe = inject(UpiIDPipe);
-
-  /**
    * upi id possible values
    */
   upiIDs: Record<string, string> = {};
@@ -104,6 +95,11 @@ export class CreditCardComponent implements OnInit, OnChanges {
    * Flag to manage dropdown state
    */
   isDropdownActive: boolean = false;
+
+  /**
+   * element ref of upi id field
+   */
+  @ViewChild('upiId') upiId: ElementRef;
 
   /**
    * Initializes the component by setting up the form and generating UPI IDs.
@@ -174,9 +170,9 @@ export class CreditCardComponent implements OnInit, OnChanges {
    * @param upiID - The UPI ID for the payment.
    */
   payViaUPI(): void {
-    // const upiID: string = this.upiPipe.transform(this.card);
-    // this.onPayViaUPI.emit(upiID);
-    // window.location.href = `upi://pay?pa=${upiID}&pn=BankName&cu=INR`;
+    const id: string = this.upiId.nativeElement.innerText;
+    console.log(id);    
+    window.location.href = `upi://pay?pa=${id}&pn=BankName&cu=INR`;
   }
 
   /**

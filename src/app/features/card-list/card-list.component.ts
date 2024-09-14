@@ -1,4 +1,3 @@
-
 import { AfterViewInit, Component, inject } from '@angular/core';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -34,20 +33,11 @@ export class CardListComponent implements AfterViewInit {
   private storageService = inject(StorageService);
 
   /**
-   * Subject to debounce UPI payments.
-   * @type {Subject<string>}
-   */
-  private payViaUPISubject = new Subject<string>();
-
-  /**
    * For toggling add card form
    */
   addCardMode = false;
 
-  constructor() {
-    // Debouncing UPI payment events to prevent rapid multiple triggers.
-    this.payViaUPISubject.pipe(debounceTime(300)).subscribe((id) => this.processUPIPayment(id));
-  }
+  constructor() {}
 
   /**
    * Lifecycle hook that is called after the view has been initialized.
@@ -104,23 +94,6 @@ export class CardListComponent implements AfterViewInit {
    */
   trackByCardId(index: number, card: Card): number {
     return card.id;
-  }
-
-  /**
-   * Debounces the UPI payment for a card by its ID.
-   * @param {number} id - The ID of the card for payment.
-   */
-  payViaUPI(id: string): void {
-    this.payViaUPISubject.next(id);
-  }
-
-  /**
-   * Processes the UPI payment after debounce.
-   * @param {number} id - The ID of the card for payment.
-   */
-  private processUPIPayment(id: string): void {
-    console.log('Processing UPI payment for card ID:', id);
-    // Add your UPI payment logic here
   }
 
   /**
