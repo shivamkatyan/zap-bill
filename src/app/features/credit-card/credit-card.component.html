@@ -43,7 +43,7 @@
       </div>
     </header>
     <div class="card-content">
-      <form [formGroup]="cardForm" (ngSubmit)="saveChanges()">
+      <form [formGroup]="cardForm">
         <div class="field">
           <label class="label">Name</label>
           <div class="control">
@@ -74,7 +74,7 @@
                   aria-controls="dropdown-menu"
                   (click)="isDropdownActive = !isDropdownActive"
                 >
-                  <span>{{ (selectedBank | uppercase) || 'Select Bank' }}</span>
+                  <span>{{ (cardForm.get('bank')?.value | uppercase) || 'Select Bank' }}</span>
                   <span class="icon is-small">
                     <i class="fas fa-angle-down" aria-hidden="true"></i>
                   </span>
