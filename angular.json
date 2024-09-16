@@ -60,7 +60,7 @@
               ],
               "optimization": true,
               "aot": true,
-              "outputHashing": "",
+              "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": true,
               "extractLicenses": true,
