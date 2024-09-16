@@ -1,9 +1,27 @@
 <div class="container">
   <div class="card-header is-justify-content-space-between is-align-items-center pb-5 px-2">
-    <div class="is-size-2 has-text-centered is-capitalized has-text-weight-medium">Added Cards</div>
-    <span class="icon has-text-primary add-card-btn">
+    <!-- Disclaimer icon -->
+    <span class="icon has-text-danger disclaimer-icon is-clickable" routerLink="/disclaimer">
+      <i class="fa fa-shield-halved fa-2x" aria-hidden="true"></i>
+    </span>
+    <div class="is-size-3 has-text-white has-text-centered is-capitalized has-text-weight-medium">Added Cards</div>
+    <span class="icon has-text-primary add-card-btn is-clickable">
       <i class="fa-solid fa-2x fa-square-plus" (click)="showAddCardModal()"></i>
     </span>
+  </div>
+
+  <div class="mx-3">
+    <!-- Info about data storage and small warning -->
+    <div class="is-flex is-align-items-center is-flex-direction-column">
+      <span class="has-text-info is-size-7 has-text-centered">
+        Data is stored locally on your device. No external storage or transfer.
+      </span>
+      <span class="has-text-warning is-size-7 has-text-centered">
+        Verify UPI before making large payments. Click
+        <span class="icon has-text-danger add-card-btn"> <i class="fa fa-shield-halved" aria-hidden="true"></i></span>
+        icon for more info.
+      </span>
+    </div>
   </div>
 
   <!-- Add Card Form -->
