@@ -171,8 +171,8 @@ export class CreditCardComponent implements OnInit, OnChanges {
    */
   payViaUPI(): void {
     const id: string = this.upiId.nativeElement.innerText;
-    console.log(id);    
-    window.location.href = `tez://upi/pay?pa=${id}&pn=BankName&cu=INR`;
+    const BankName: string = this.card.bank?.toUpperCase();
+    window.location.href = `tez://upi/pay?pa=${id}&pn=${BankName}&cu=INR`;
   }
 
   /**
