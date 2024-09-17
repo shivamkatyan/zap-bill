@@ -45,24 +45,6 @@
     <div class="card-content">
       <form [formGroup]="cardForm">
         <div class="field">
-          <label class="label">Name</label>
-          <div class="control">
-            <input class="input" formControlName="username" placeholder="Enter name" />
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">Phone Number</label>
-          <div class="control">
-            <input class="input" formControlName="phoneNumber" placeholder="Enter phone number" />
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">Credit Card Number</label>
-          <div class="control">
-            <input class="input" formControlName="number" placeholder="Enter card number" />
-          </div>
-        </div>
-        <div class="field">
           <label class="label">Bank</label>
           <div class="control">
             <div class="dropdown" [ngClass]="{ 'is-active': isDropdownActive }" id="bank-selector">
@@ -91,6 +73,24 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Name</label>
+          <div class="control">
+            <input class="input" formControlName="username" placeholder="Enter name" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Phone Number</label>
+          <div class="control">
+            <input class="input" formControlName="phoneNumber" placeholder="Enter phone number" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Credit Card Number</label>
+          <div class="control">
+            <input class="input" formControlName="number" placeholder="Enter card number" />
           </div>
         </div>
         <div class="is-inline-flex is-justify-content-center mt-3" style="width: 100%">
