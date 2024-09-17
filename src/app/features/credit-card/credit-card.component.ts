@@ -10,7 +10,7 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
@@ -30,7 +30,7 @@ export class CreditCardComponent implements OnInit, OnChanges {
    * List of available banks for selection.
    * @type {string[]}
    */
-  listOfBanks = ['axis', 'icici', 'au bank', 'idfc', 'amex', 'sbi'];
+  listOfBanks = ['axis', 'icici', 'au bank', 'idfc', 'amex'];
 
   /**
    * BehaviorSubject to manage the editing state.
