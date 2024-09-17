@@ -21,7 +21,12 @@
           <div>Credit Card Number:</div>
           <div class="has-text-weight-bold has-text-white mb-3">{{ card.number }}</div>
           <div>UPI ID:</div>
-          <div #upiId class="has-text-weight-bold has-text-white mb-3">{{ card | upiID }}</div>
+          <div #upiId class="has-text-weight-bold has-text-white mb-3">
+            {{ card | upiID }}
+            <span class="icon is-clickable" (click)="copyUpiToClipboard()">
+              <i class="fa fa-copy"></i>
+            </span>
+          </div>
         </div>
       </div>
     </div>

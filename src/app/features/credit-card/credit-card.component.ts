@@ -85,7 +85,6 @@ export class CreditCardComponent implements OnInit, OnChanges {
    * @type {FormBuilder}
    */
   private fb = inject(FormBuilder);
-
   /**
    * upi id possible values
    */
@@ -183,5 +182,17 @@ export class CreditCardComponent implements OnInit, OnChanges {
    */
   trackByFn(index: number, bank: string): string {
     return bank;
+  }
+
+  /**
+   * Copies the specified text to the clipboard.
+   */
+  async copyUpiToClipboard() {
+    const text = this.upiId.nativeElement.innerText;
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch (err) {
+      console.error('Error in copying text: ', err);
+    }
   }
 }
